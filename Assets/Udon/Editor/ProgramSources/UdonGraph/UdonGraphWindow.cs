@@ -197,7 +197,7 @@ namespace VRC.Udon.Editor
                     if (GUILayout.Button(" Colorful ", EditorStyles.toolbarButton))
                     {
                         UdonGraphGUI.colorful = !UdonGraphGUI.colorful;
-                        //graph.data = new UdonGraphData(graph.graphProgramAsset.GetGraphData()); //just do this in reload always
+                        graph.data = new UdonGraphData(graph.graphProgramAsset.GetGraphData()); //just do this in reload always
                         graph.Reload();
                     }
                     if (GUILayout.Button(" Party ", EditorStyles.toolbarButton))
