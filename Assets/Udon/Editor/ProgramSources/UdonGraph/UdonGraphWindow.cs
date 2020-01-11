@@ -28,6 +28,9 @@ namespace VRC.Udon.Editor
             GetWindow(typeof(UdonGraphWindow));
         }
 
+        private bool wasMaximizedToggled;
+
+
         private void OnEnable()
         {
             titleContent = new GUIContent("Udon Graph");
@@ -132,7 +135,10 @@ namespace VRC.Udon.Editor
                 _displayText = "Create an Udon Graph Asset to begin.";
                 _drawGraph = false;
             }
+
+            
         }
+
 
         public void OnGUI()
         {
@@ -186,13 +192,18 @@ namespace VRC.Udon.Editor
             GUILayout.FlexibleSpace();
             if (_drawGraph)
             {
-                if(GUILayout.Button(" Colorful ", EditorStyles.toolbarButton))
+                using (new EditorGUI.DisabledScope(Application.isPlaying))
                 {
-                    UdonGraphGUI.colorful = !UdonGraphGUI.colorful;
-                }
-                if (GUILayout.Button(" Party ", EditorStyles.toolbarButton))
-                {
-                    UdonGraphGUI.rainbow = !UdonGraphGUI.rainbow;
+                    if (GUILayout.Button(" Colorful ", EditorStyles.toolbarButton))
+                    {
+                        UdonGraphGUI.colorful = !UdonGraphGUI.colorful;
+                        //graph.data = new UdonGraphData(graph.graphProgramAsset.GetGraphData()); //just do this in reload always
+                        graph.Reload();
+                    }
+                    if (GUILayout.Button(" Party ", EditorStyles.toolbarButton))
+                    {
+                        UdonGraphGUI.rainbow = !UdonGraphGUI.rainbow;
+                    }
                 }
                 using (new EditorGUI.DisabledScope(Application.isPlaying))
                 {

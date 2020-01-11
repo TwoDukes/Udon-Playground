@@ -77,12 +77,12 @@ namespace VRC.Udon.Editor
             Color guiColor = GUI.color;
             GUI.depth = 100;
             GUI.color = new Color(1, 1, 1, .75f);
-            GUILayout.Window(
-                123456789,
-                new Rect(graphExtents.position.x-(_udonLogo.fixedWidth/3), graphExtents.position.y-(_udonLogo.fixedHeight/2), 300, 300),
-                delegate { DrawLogo(); },
-                "", _udonLogo 
-                );
+            //GUILayout.Window(
+            //    123456789,
+            //    new Rect(graphExtents.position.x-(_udonLogo.fixedWidth/3), graphExtents.position.y-(_udonLogo.fixedHeight/2), 300, 300),
+            //    delegate { DrawLogo(); },
+            //    "", _udonLogo 
+            //    );
             GUI.depth = guiDepth;
             GUI.color = guiColor;
             
@@ -114,7 +114,14 @@ namespace VRC.Udon.Editor
                     GUILayout.Height(10)
                 );
             }
-            
+
+            GUILayout.Window(
+            123456789,
+            new Rect(graphExtents.position.x - (_udonLogo.fixedWidth / 3), graphExtents.position.y - (_udonLogo.fixedHeight / 2), 300, 300),
+            delegate { DrawLogo(); },
+            "", _udonLogo
+            );
+
             if (_doReSerialize)
             {
                 //Leaving this mess here incase the selection issue regresses and I have to deal with it like this
@@ -179,6 +186,7 @@ namespace VRC.Udon.Editor
         private static void DrawLogo()
         {
             //Do nothing, just drawing a logo for now
+            //Debug.Log("DRAWING LOGO");
         }
 
         //TODO: Move all this color stuff to a utility file?
@@ -203,12 +211,12 @@ namespace VRC.Udon.Editor
 
             if (rainbow)
             {
-                return new Color(UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f));             
+                return new Color(UnityEngine.Random.Range(0.1f, 1.0f), UnityEngine.Random.Range(0.1f, 1.0f), UnityEngine.Random.Range(0.1f, 1.0f));             
             }
             else if (colorful)
             {
                 UnityEngine.Random.InitState(id);
-                return new Color(UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f));
+                return new Color(UnityEngine.Random.Range(0.1f, 1.0f), UnityEngine.Random.Range(0.1f, 1.0f), UnityEngine.Random.Range(0.1f, 1.0f));
             }
 
             if (type == null)
