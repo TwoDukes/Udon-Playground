@@ -17,6 +17,7 @@ using VRC.Udon.Graph.Interfaces;
 using VRC.Udon.Serialization;
 using CompressionLevel = System.IO.Compression.CompressionLevel;
 using Object = UnityEngine.Object;
+using UnityEngine;
 
 namespace VRC.Udon.Editor
 {
@@ -194,8 +195,22 @@ namespace VRC.Udon.Editor
         private static readonly MD5 _md5Hasher = MD5.Create();
         private static readonly Dictionary<Type, Color> _typeColors = new Dictionary<Type, Color>();
 
-        public static Color MapTypeToColor(Type type)
+        public static bool colorful = false;
+        public static bool rainbow = false;
+
+        public static Color MapTypeToColor(int id, Type type = null)
         {
+
+            if (rainbow)
+            {
+                return new Color(UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f));             
+            }
+            else if (colorful)
+            {
+                UnityEngine.Random.InitState(id);
+                return new Color(UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f));
+            }
+
             if (type == null)
             {
                 return Color.white;
@@ -204,6 +219,7 @@ namespace VRC.Udon.Editor
             if (type.IsPrimitive)
             {
                 return new Color(0.12f, 0.53f, 0.9f);
+                //return new Color(0.25f, 0.1f, 0.5f);
             }
 
             if (typeof(Object).IsAssignableFrom(type))

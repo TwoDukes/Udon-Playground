@@ -186,7 +186,15 @@ namespace VRC.Udon.Editor
             GUILayout.FlexibleSpace();
             if (_drawGraph)
             {
-                using(new EditorGUI.DisabledScope(Application.isPlaying))
+                if(GUILayout.Button(" Colorful ", EditorStyles.toolbarButton))
+                {
+                    UdonGraphGUI.colorful = !UdonGraphGUI.colorful;
+                }
+                if (GUILayout.Button(" Party ", EditorStyles.toolbarButton))
+                {
+                    UdonGraphGUI.rainbow = !UdonGraphGUI.rainbow;
+                }
+                using (new EditorGUI.DisabledScope(Application.isPlaying))
                 {
                     bool triggerRefresh;
                     if (graph.graphProgramAsset is AbstractUdonProgramSource udonProgramSource)
