@@ -27,5 +27,14 @@ MonoBehaviour:
   graphData:
     name: 
     description: 
-    nodes: []
+    nodes:
+    - fullName: Branch
+      uid: 339dfedd-20f4-4cf5-aa60-8b4dfff3ceed
+      position: {x: 0, y: 0}
+      nodeUIDs:
+      - 
+      flowUIDs: []
+      nodeValues:
+      - unityObjectValue: {fileID: 0}
+        stringValue: 
   showAssembly: 0
