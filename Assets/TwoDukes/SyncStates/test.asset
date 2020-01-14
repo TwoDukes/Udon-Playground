@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f11136daadff0b44ac2278a314682ab, type: 3}
-  m_Name: Checkpoint
+  m_Name: test
   m_EditorClassIdentifier: 
   showSerializedProgramJSON: 0
   serializationData:
@@ -27,23 +27,5 @@ MonoBehaviour:
   graphData:
     name: 
     description: 
-    nodes:
-    - fullName: VRCUdonCommonInterfacesIUdonEventReceiver.__GetProgramVariable__SystemString__SystemObject
-      uid: 58b67e5e-f336-4985-9c2d-8474405caa0a
-      position: {x: -744, y: -360}
-      nodeUIDs:
-      - 
-      - 
-      flowUIDs: []
-      nodeValues:
-      - unityObjectValue: {fileID: 0}
-        stringValue: 
-      - unityObjectValue: {fileID: 0}
-        stringValue: System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|CheckpointStates
-    - fullName: Event_OnTriggerEnter
-      uid: a2d80e5b-054a-4cb8-9056-c174f8ba613f
-      position: {x: -984, y: -252}
-      nodeUIDs: []
-      flowUIDs: []
-      nodeValues: []
+    nodes: []
   showAssembly: 0

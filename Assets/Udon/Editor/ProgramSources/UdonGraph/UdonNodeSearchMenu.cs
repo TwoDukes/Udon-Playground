@@ -51,18 +51,21 @@ namespace VRC.Udon.Editor
             Dictionary<string, UdonNodeDefinition> baseNodeDefinitions = new Dictionary<string, UdonNodeDefinition>();
             foreach (UdonNodeDefinition nodeDefinition in UdonEditorManager.Instance.GetNodeDefinitions().OrderBy(s => PrettyFullName(s)))
             {
+                //if (nodeDefinition.fullName == "Branch") nodeDefinition.fullName = "If_Op";
                 string baseIdentifier = nodeDefinition.fullName;
                 string[] splitBaseIdentifier = baseIdentifier.Split(new[] {"__"}, StringSplitOptions.None);
                 if (splitBaseIdentifier.Length >= 2)
                 {
                     baseIdentifier = $"{splitBaseIdentifier[0]}__{splitBaseIdentifier[1]}";
                 }
-                if (baseNodeDefinitions.ContainsKey(baseIdentifier))
+                if (baseNodeDefinitions.ContainsKey(baseIdentifier))// || baseIdentifier == "If_Op")
                 {
                     continue;
                 }
                 baseNodeDefinitions.Add(baseIdentifier, nodeDefinition);
             }
+
+            
             _unfilteredNodeDefinitions = baseNodeDefinitions.Values;
             _searchDefinitions = _unfilteredNodeDefinitions.ToDictionary(nodeDefinition => SanitizedSearchString(nodeDefinition.fullName));
             _filteredNodeDefinitions =  _unfilteredNodeDefinitions;
@@ -78,7 +81,8 @@ namespace VRC.Udon.Editor
                 }
                 s = s.Replace("_", " ")
                     .ReplaceFirst("unityengine", "");
-                    //.ReplaceFirst("system", "");
+                //.ReplaceFirst("system", "");
+                //if (s == "Branch") s = "If";
                 return s;
             }
             

@@ -137,6 +137,8 @@ namespace VRC.Udon.Editor
 
             ReSerializeData();
 
+            if (node.title == "Branch") node.title = "If";
+
             AddNode(node);
         }
 
@@ -288,6 +290,8 @@ namespace VRC.Udon.Editor
             {
                 node.AddOutputSlot(FriendlyTypeName(output), SlotTypeConverter(output, udonNodeDefinition.fullName));
             }
+
+            if (node.title == "Branch") node.title = "If";
 
             AddNode(node);
             return node;
