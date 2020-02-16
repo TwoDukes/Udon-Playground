@@ -17,7 +17,6 @@ using VRC.Udon.Graph.Interfaces;
 using VRC.Udon.Serialization;
 using CompressionLevel = System.IO.Compression.CompressionLevel;
 using Object = UnityEngine.Object;
-using UnityEngine;
 
 namespace VRC.Udon.Editor
 {
@@ -77,15 +76,7 @@ namespace VRC.Udon.Editor
             Color guiColor = GUI.color;
             //GUI.depth = 100;
             //GUI.color = new Color(1, 1, 1, .75f);
-
-            //Old window draw location
-            //GUILayout.Window(
-            //    123456789,
-            //    new Rect(graphExtents.position.x-(_udonLogo.fixedWidth/3), graphExtents.position.y-(_udonLogo.fixedHeight/2), 300, 300),
-            //    delegate { DrawLogo(); },
-            //    "", _udonLogo 
-            //    );
-
+            
             GUI.depth = guiDepth;
             GUI.color = guiColor;
             
@@ -118,13 +109,12 @@ namespace VRC.Udon.Editor
                 );
             }
 
-            //moved logo draw from above to here for logo overdraw fix
             GUILayout.Window(
-            123456789,
-            new Rect(graphExtents.position.x - (_udonLogo.fixedWidth / 3), graphExtents.position.y - (_udonLogo.fixedHeight / 2), 300, 300),
-            delegate { DrawLogo(); },
-            "", _udonLogo
-            );
+                123456789,
+                new Rect(graphExtents.position.x - (_udonLogo.fixedWidth / 3), graphExtents.position.y - (_udonLogo.fixedHeight / 2), 300, 300),
+                delegate { DrawLogo(); },
+                "", _udonLogo
+                );
 
             if (_doReSerialize)
             {
@@ -190,7 +180,6 @@ namespace VRC.Udon.Editor
         private static void DrawLogo()
         {
             //Do nothing, just drawing a logo for now
-            //Debug.Log("DRAWING LOGO");
         }
 
         //TODO: Move all this color stuff to a utility file?
@@ -207,22 +196,8 @@ namespace VRC.Udon.Editor
         private static readonly MD5 _md5Hasher = MD5.Create();
         private static readonly Dictionary<Type, Color> _typeColors = new Dictionary<Type, Color>();
 
-        public static bool colorful = false;
-        public static bool rainbow = false;
-
-        public static Color MapTypeToColor(int id, Type type = null)
+        public static Color MapTypeToColor(Type type)
         {
-
-            if (rainbow)
-            {
-                return new Color(UnityEngine.Random.Range(0.1f, 1.0f), UnityEngine.Random.Range(0.1f, 1.0f), UnityEngine.Random.Range(0.1f, 1.0f));             
-            }
-            else if (colorful)
-            {
-                UnityEngine.Random.InitState(id);
-                return new Color(UnityEngine.Random.Range(0.1f, 1.0f), UnityEngine.Random.Range(0.1f, 1.0f), UnityEngine.Random.Range(0.1f, 1.0f));
-            }
-
             if (type == null)
             {
                 return Color.white;
@@ -231,7 +206,6 @@ namespace VRC.Udon.Editor
             if (type.IsPrimitive)
             {
                 return new Color(0.12f, 0.53f, 0.9f);
-                //return new Color(0.25f, 0.1f, 0.5f);
             }
 
             if (typeof(Object).IsAssignableFrom(type))
@@ -452,16 +426,6 @@ namespace VRC.Udon.Editor
             }
 
             Color nodeColor = NodeColors.Base;
-            if (rainbow)
-            {
-                nodeColor = new Color(UnityEngine.Random.Range(0.1f, 1.0f), UnityEngine.Random.Range(0.1f, 1.0f), UnityEngine.Random.Range(0.1f, 1.0f));
-            }
-            else if (colorful)
-            {
-                UnityEngine.Random.InitState(node.GetInstanceID());
-                nodeColor = new Color(UnityEngine.Random.Range(0.1f, 1.0f), UnityEngine.Random.Range(0.1f, 1.0f), UnityEngine.Random.Range(0.1f, 1.0f));
-            }
-
             if (node.name.StartsWithCached("Event_"))
             {
                 nodeColor = NodeColors.Event;
@@ -589,14 +553,7 @@ namespace VRC.Udon.Editor
                     GUILayout.Space(5);
                 }
 
-                if (rainbow)
-                {
-                    GUI.backgroundColor = new Color(UnityEngine.Random.Range(0.1f, 1.0f), UnityEngine.Random.Range(0.1f, 1.0f), UnityEngine.Random.Range(0.1f, 1.0f));
-                }
-                else
-                {
-                    GUI.backgroundColor = new Color(.85f, .85f, .85f);
-                }
+                GUI.backgroundColor = new Color(.85f, .85f, .85f);
 
                 if (slot.edges.Count == 0 && !slot.isFlowSlot)
                 {
@@ -846,13 +803,10 @@ namespace VRC.Udon.Editor
         private void DrawOutputSlot(Slot slot)
         {
             //Color backgroundColor = GUI.backgroundColor;
-            if (rainbow)
-            {
-                if (slot.edges.Count == 0)
-                {
-                    GUI.backgroundColor = MapTypeToColor(slot.node.GetInstanceID(), slot.dataType);
-                }
-            }
+            //if(slot.edges.Count == 0)
+            //{
+            //    GUI.backgroundColor = MapTypeToColor(slot.dataType);
+            //}
 
             UdonNodeData nodeData = ((UdonGraph) graph).data.FindNode(((UdonNode) slot.node).uid);
             int index = slot.node.outputDataSlots.ToList().IndexOf(slot);

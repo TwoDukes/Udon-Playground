@@ -22,7 +22,7 @@ namespace VRC.Udon.Editor
         private Styles _styles;
         private Vector2 _scrollPosition = Vector2.zero;
         private IEnumerable<UdonNodeDefinition> _filteredNodeDefinitions;
-        private readonly IEnumerable<UdonNodeDefinition> _unfilteredNodeDefinitions;
+        private IEnumerable<UdonNodeDefinition> _unfilteredNodeDefinitions;
         private Dictionary<string, UdonNodeDefinition> _searchDefinitions;
 
         private long _lastTime;
@@ -45,27 +45,25 @@ namespace VRC.Udon.Editor
 
         private static readonly NodeMenuLayer NodeMenu = new NodeMenuLayer();
 
-        public UdonNodeSearchMenu()
+        private void Awake()
         {
             //_unfilteredNodeDefinitions = _udonEditorInterface.GetNodeDefinitions();
             Dictionary<string, UdonNodeDefinition> baseNodeDefinitions = new Dictionary<string, UdonNodeDefinition>();
             foreach (UdonNodeDefinition nodeDefinition in UdonEditorManager.Instance.GetNodeDefinitions().OrderBy(s => PrettyFullName(s)))
             {
-                //if (nodeDefinition.fullName == "Branch") nodeDefinition.fullName = "If_Op";
                 string baseIdentifier = nodeDefinition.fullName;
                 string[] splitBaseIdentifier = baseIdentifier.Split(new[] {"__"}, StringSplitOptions.None);
                 if (splitBaseIdentifier.Length >= 2)
                 {
                     baseIdentifier = $"{splitBaseIdentifier[0]}__{splitBaseIdentifier[1]}";
                 }
-                if (baseNodeDefinitions.ContainsKey(baseIdentifier))// || baseIdentifier == "If_Op")
+                if (baseNodeDefinitions.ContainsKey(baseIdentifier))
                 {
                     continue;
                 }
                 baseNodeDefinitions.Add(baseIdentifier, nodeDefinition);
             }
 
-            
             _unfilteredNodeDefinitions = baseNodeDefinitions.Values;
             _searchDefinitions = _unfilteredNodeDefinitions.ToDictionary(nodeDefinition => SanitizedSearchString(nodeDefinition.fullName));
             _filteredNodeDefinitions =  _unfilteredNodeDefinitions;
@@ -81,11 +79,9 @@ namespace VRC.Udon.Editor
                 }
                 s = s.Replace("_", " ")
                     .ReplaceFirst("unityengine", "");
-                //.ReplaceFirst("system", "");
-                //if (s == "Branch") s = "If";
+                    //.ReplaceFirst("system", "");
                 return s;
             }
-            
         }
 
         public static void DrawWindow(UdonGraph graph, UdonGraphGUI graphGUI)

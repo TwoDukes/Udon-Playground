@@ -1936,6 +1936,7 @@ public partial class VRCSdkControlPanel : EditorWindow
         {
             if (VRC.Core.APIUser.CurrentUser.canPublishAvatars)
             {
+                EnvConfig.ForceEnableFog();
 #if VRC_SDK_VRCSDK2
                     VRC_SdkBuilder.shouldBuildUnityPackage = VRCSdkControlPanel.FutureProofPublishEnabled;
                     VRC_SdkBuilder.ExportAndUploadAvatarBlueprint(avatar.gameObject);

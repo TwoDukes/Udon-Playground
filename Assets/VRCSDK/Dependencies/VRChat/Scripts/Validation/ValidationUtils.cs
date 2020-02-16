@@ -19,13 +19,14 @@ namespace VRCSDK2.Validation
         public static void RemoveIllegalComponents(GameObject target, System.Type[] whitelist, bool retry = true, bool onlySceneObjects = false, bool logStripping = true)
         {
             bool foundBad = false;
-            IEnumerator remover = FindIllegalComponentsEnumerator(target, whitelist, (c) => {
+            IEnumerator remover = FindIllegalComponentsEnumerator(target, whitelist, (c) =>
+            {
                 if (c != null)
                 {
-                    if(onlySceneObjects && c.GetInstanceID() < 0)
+                    if (onlySceneObjects && c.GetInstanceID() < 0)
                         return;
 
-                    if(logStripping)
+                    if (logStripping)
                         Debug.LogWarningFormat("Removed component of type {0} found on {1}", c.GetType().Name, c.gameObject.name);
 
                     RemoveComponent(c);
@@ -33,7 +34,7 @@ namespace VRCSDK2.Validation
                     foundBad = true;
                 }
             }, false);
-            while (remover.MoveNext());
+            while (remover.MoveNext()) ;
 
             if (retry && foundBad)
                 RemoveIllegalComponents(target, whitelist, false, onlySceneObjects);
@@ -42,10 +43,11 @@ namespace VRCSDK2.Validation
         public static IEnumerator RemoveIllegalComponentsEnumerator(GameObject target, System.Type[] whitelist, bool retry = true, bool onlySceneObjects = false)
         {
             bool foundBad = false;
-            yield return FindIllegalComponentsEnumerator(target, whitelist, (c) => {
+            yield return FindIllegalComponentsEnumerator(target, whitelist, (c) =>
+            {
                 if (c != null)
                 {
-                    if(onlySceneObjects && c.GetInstanceID() < 0)
+                    if (onlySceneObjects && c.GetInstanceID() < 0)
                         return;
 
                     Debug.LogWarningFormat("Removed component of type {0} found on {1}", c.GetType().Name, c.gameObject.name);
@@ -63,7 +65,7 @@ namespace VRCSDK2.Validation
         public static IEnumerator FindIllegalComponentsEnumerator(GameObject target, System.Type[] whitelist, System.Action<Component> onFound, bool useWatch = true)
         {
             System.Diagnostics.Stopwatch watch = new System.Diagnostics.Stopwatch();
-            if(useWatch)
+            if (useWatch)
                 watch.Start();
 
             HashSet<System.Type> typesInUse = new HashSet<System.Type>();
@@ -72,7 +74,7 @@ namespace VRCSDK2.Validation
             while (children.Count > 0)
             {
                 GameObject child = children.Dequeue();
-                if(child == null)
+                if (child == null)
                     continue;
 
                 int childCount = child.transform.childCount;
@@ -117,10 +119,10 @@ namespace VRCSDK2.Validation
 
         public static System.Type GetTypeFromName(string name, Assembly[] assemblies = null)
         {
-            if(_typeCache.ContainsKey(name))
+            if (_typeCache.ContainsKey(name))
                 return _typeCache[name];
 
-            if(assemblies == null)
+            if (assemblies == null)
                 assemblies = System.AppDomain.CurrentDomain.GetAssemblies();
 
             foreach (Assembly a in assemblies)
@@ -136,7 +138,7 @@ namespace VRCSDK2.Validation
             //This is really verbose for some SDK scenes, eg.
             //If they don't have FinalIK installed
 #if VRC_CLIENT && UNITY_EDITOR
-                Debug.LogWarningFormat("Could not find type {0}", name);
+            Debug.LogWarningFormat("Could not find type {0}", name);
 #endif
             _typeCache[name] = null;
             return null;
@@ -190,11 +192,7 @@ namespace VRCSDK2.Validation
         {
             RemoveDependencies(comp);
 
-#if VRC_CLIENT
-            Object.DestroyImmediate(comp, true);
-#else
-            Object.DestroyImmediate(comp, false);
-#endif
+            Object.Destroy(comp);
         }
 
         public static void RemoveComponentsOfType<T>(GameObject target) where T : Component

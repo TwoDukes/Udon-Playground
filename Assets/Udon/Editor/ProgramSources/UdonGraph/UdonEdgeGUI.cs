@@ -121,8 +121,7 @@ namespace VRC.Udon.Editor
 
                     Color edgeColor = Color.white;
                     if (_sDragSourceSlot.dataType != null)
-                        //edgeColor = UdonGraphGUI.MapTypeToColor(_sDragSourceSlot.dataType);
-                        edgeColor = UdonGraphGUI.MapTypeToColor(_sDragSourceSlot.node.GetInstanceID(), _sDragSourceSlot.dataType);
+                        edgeColor = UdonGraphGUI.MapTypeToColor(_sDragSourceSlot.dataType);
 
                     DrawEdge(start, end, (Texture2D)Styles.selectedConnectionTexture.image, edgeColor, edgeStyle);
                 }
@@ -155,14 +154,12 @@ namespace VRC.Udon.Editor
                     }
                     
                     Color niceGrey = new Color(.85f, .85f, .85f);
-                    //color = current.fromSlot.dataType != null ? UdonGraphGUI.MapTypeToColor(current.fromSlot.dataType) : niceGrey;
-                    color = current.fromSlot.dataType != null ? UdonGraphGUI.MapTypeToColor(current.fromSlot.node.GetInstanceID(), current.fromSlot.dataType) : niceGrey;
+                    color = current.fromSlot.dataType != null ? UdonGraphGUI.MapTypeToColor(current.fromSlot.dataType) : niceGrey;
                     
                     Color endColor = new Color(.85f, .85f, .85f);
                     if (current.toSlot.dataType != null)
                     {
-                        //endColor = UdonGraphGUI.MapTypeToColor(current.toSlot.dataType);
-                        endColor = UdonGraphGUI.MapTypeToColor(current.fromSlot.node.GetInstanceID(), current.fromSlot.dataType);
+                        endColor = UdonGraphGUI.MapTypeToColor(current.toSlot.dataType);
                     }
 
                     DrawEdge(current, tex, color != endColor ? Color.Lerp(color, endColor, .5f) : color, edgeStyle);

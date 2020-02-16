@@ -1,5 +1,4 @@
 ﻿#define ENV_SET_INCLUDED_SHADERS
-#define ENV_SET_FOG
 
 using UnityEngine;
 using UnityEditor;
@@ -530,20 +529,6 @@ public class EnvConfig
         lightmapKeepSubtractive.boolValue = true;
 #endif
 
-#if ENV_SET_FOG
-        SerializedProperty fogStripping = graphicsManager.FindProperty("m_FogStripping");
-        fogStripping.enumValueIndex = 1;
-
-        SerializedProperty fogKeepLinear = graphicsManager.FindProperty("m_FogKeepLinear");
-        fogKeepLinear.boolValue = true;
-
-        SerializedProperty fogKeepExp = graphicsManager.FindProperty("m_FogKeepExp");
-        fogKeepExp.boolValue = true;
-
-        SerializedProperty fogKeepExp2 = graphicsManager.FindProperty("m_FogKeepExp2");
-        fogKeepExp2.boolValue = true;
-#endif
-
         SerializedProperty albedoSwatchInfos = graphicsManager.FindProperty("m_AlbedoSwatchInfos");
         albedoSwatchInfos.ClearArray();
         albedoSwatchInfos.arraySize = 0;
@@ -555,6 +540,30 @@ public class EnvConfig
         lightsUseColorTemperature.boolValue = true;
 
         graphicsManager.ApplyModifiedProperties();
+    }
+
+    public static void ForceEnableFog()
+    {
+
+        VRC.Core.Logger.Log("Force-enabling Fog", VRC.Core.DebugLevel.All);
+
+        const string GraphicsSettingsAssetPath = "ProjectSettings/GraphicsSettings.asset";
+        SerializedObject graphicsManager = new SerializedObject(UnityEditor.AssetDatabase.LoadAllAssetsAtPath(GraphicsSettingsAssetPath)[0]);
+
+        SerializedProperty fogStripping = graphicsManager.FindProperty("m_FogStripping");
+        fogStripping.enumValueIndex = 1;
+
+        SerializedProperty fogKeepLinear = graphicsManager.FindProperty("m_FogKeepLinear");
+        fogKeepLinear.boolValue = true;
+
+        SerializedProperty fogKeepExp = graphicsManager.FindProperty("m_FogKeepExp");
+        fogKeepExp.boolValue = true;
+
+        SerializedProperty fogKeepExp2 = graphicsManager.FindProperty("m_FogKeepExp2");
+        fogKeepExp2.boolValue = true;
+
+        graphicsManager.ApplyModifiedProperties();
+
     }
 
     static void SetAudioSettings()

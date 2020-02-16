@@ -12,7 +12,7 @@ namespace VRC.Udon.Editor
     public class UdonGraphWindow : EditorWindow
     {
         private const int TOOLBAR_HEIGHT = 17;
-        private const float CONTENT_LOGO_SCALE = 1.0f;
+        private const float CONTENT_LOGO_SCALE = .75f;
 
         [SerializeField]
         private UdonGraph graph;
@@ -27,9 +27,6 @@ namespace VRC.Udon.Editor
         {
             GetWindow(typeof(UdonGraphWindow));
         }
-
-        private bool wasMaximizedToggled;
-
 
         private void OnEnable()
         {
@@ -135,10 +132,7 @@ namespace VRC.Udon.Editor
                 _displayText = "Create an Udon Graph Asset to begin.";
                 _drawGraph = false;
             }
-
-            
         }
-
 
         public void OnGUI()
         {
@@ -192,20 +186,7 @@ namespace VRC.Udon.Editor
             GUILayout.FlexibleSpace();
             if (_drawGraph)
             {
-                using (new EditorGUI.DisabledScope(Application.isPlaying))
-                {
-                    if (GUILayout.Button(" Colorful ", EditorStyles.toolbarButton))
-                    {
-                        UdonGraphGUI.colorful = !UdonGraphGUI.colorful;
-                        graph.data = new UdonGraphData(graph.graphProgramAsset.GetGraphData()); //just do this in reload always
-                        graph.Reload();
-                    }
-                    if (GUILayout.Button(" Party ", EditorStyles.toolbarButton))
-                    {
-                        UdonGraphGUI.rainbow = !UdonGraphGUI.rainbow;
-                    }
-                }
-                using (new EditorGUI.DisabledScope(Application.isPlaying))
+                using(new EditorGUI.DisabledScope(Application.isPlaying))
                 {
                     bool triggerRefresh;
                     if (graph.graphProgramAsset is AbstractUdonProgramSource udonProgramSource)

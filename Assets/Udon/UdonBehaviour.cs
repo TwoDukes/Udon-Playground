@@ -1874,6 +1874,14 @@ namespace VRC.Udon
             }
         }
 
+        public string[] GetPrograms()
+        {
+            if (program == null)
+                return new string[0];
+
+            return program.EntryPoints.GetExportedSymbols();
+        }
+
         #endregion
 
         #region Serialization
